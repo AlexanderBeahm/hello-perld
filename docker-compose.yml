@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  hello-perld:
+    build: .
+    ports:
+      - "8080:8080"

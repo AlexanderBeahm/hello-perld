@@ -4,6 +4,12 @@
 # Set up simple barriers to messing yrself over.
 use strict;
 use warnings;
+use 5.042_000;
+
+# Include the current directory in @INC for module searching.
+use lib '.';
+
+require server;
 
 my $greeting = "Hello, perld!";
 
@@ -26,4 +32,15 @@ my %hash = (
 
 print "\n...and then finally printing hash in all main variable types.\n";
 
-print "$hash{greeting}$hash{target}"
+print "$hash{greeting}$hash{target}";
+
+print "\nNow running server...\n";
+
+eval {
+    server::run();
+};
+if ($@) {
+    print "An error occurred while running the server: $@";
+}
+
+print "\nServer stopped.\n";
