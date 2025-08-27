@@ -5,6 +5,10 @@ use warnings;
 use HTTP::Daemon;
 use HTTP::Status;
 
+use lib '.';
+
+require database;
+
 sub run{
     # Create a new HTTP::Daemon on port 8080
     my $d = HTTP::Daemon->new(
@@ -21,6 +25,7 @@ sub run{
             if ($request->method eq 'GET' && $request->uri->path eq '/health') {
                 # Send an HTTP 200 OK response
                 $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'text/plain' ], 'OK'));
+                database::validate_connection();
             } else {
                 # Respond with HTTP 404 Not Found for unsupported requests
                 $client_conn->send_error(RC_NOT_FOUND);
