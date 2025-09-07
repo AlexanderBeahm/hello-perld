@@ -29,7 +29,13 @@ sub run{
                 my $accountData = plexclient::get_account_info();
                 $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'text/plain' ], "OK - $accountData"));
 
-            } else {
+            } 
+            elsif ($request->method eq 'GET' && $request->uri->path eq '/refresh') {
+                # Trigger the refresh operation
+                plexclient::refresh_library(1);
+                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'text/plain' ], "Refresh triggered successfully."));
+            }
+            else {
                 # Respond with HTTP 404 Not Found for unsupported requests
                 $client_conn->send_error(RC_NOT_FOUND);
             }

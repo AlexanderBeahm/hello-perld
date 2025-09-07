@@ -53,8 +53,8 @@ sub get_playlist_contents {
 
 sub refresh_library {
     my ($section_key) = @_;
-    my $url = "$base_url/library/sections/$section_key/refresh";
-    my $req = HTTP::Request->new(POST => $url);
+    my $url = "$base_url/library/sections/$section_key/refresh?force=1";
+    my $req = HTTP::Request->new(GET => $url);
     $req->header('X-Plex-Token' => $plex_token);
 
     my $resp = $ua->request($req);
