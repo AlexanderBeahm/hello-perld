@@ -7,4 +7,4 @@ RUN ["cpanm", "LWP::UserAgent", "LWP::Protocol::https", "HTTP::Request", "XML::S
      "HTTP::Daemon", "HTTP::Status", "DBD::Pg"]
 
 CMD ["perl", "./main.pl"]
-EXPOSE 11201
+EXPOSE 8080
