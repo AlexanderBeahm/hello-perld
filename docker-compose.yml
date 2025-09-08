@@ -5,6 +5,11 @@ services:
       - "8080:8080"
     env_file:
       - ./.env
+    develop:
+      watch:
+        - action: sync+restart
+          path: .
+          target: /usr/src/myapp
   db:
     image: postgres:latest
     environment:
