@@ -9,17 +9,28 @@
 		"ghcr.io/itsmechlark/features/postgresql:1": {},
 		"ghcr.io/haukex/devcontainer-features/perl:1": {},
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-	}
-
+	},
+	// 🔑 Forward the WSL2 ssh-agent socket into the container:
+	"mounts": [
+		"source=${localEnv:HOME}/.ssh/agent.sock,target=/ssh-agent,type=bind"
+	],
+	"containerEnv": {
+		"SSH_AUTH_SOCK": "/ssh-agent",
+		// Accept GitHub's host key on first connect (modern OpenSSH hashes known_hosts):
+		"GIT_SSH_COMMAND": "ssh -o StrictHostKeyChecking=accept-new"
+	},
+	"remoteEnv": {
+		"SSH_AUTH_SOCK": "/ssh-agent"
+	},
+	// Add GitHub to known_hosts so first Git call is non-interactive:
+	"postCreateCommand": "mkdir -p ~/.ssh && ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> ~/.ssh/known_hosts",
+	"remoteUser": "vscode"
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
 	// Configure tool-specific properties.
 	// "customizations": {},
-
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
 }
