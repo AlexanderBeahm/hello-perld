@@ -2,6 +2,13 @@
 
 A simple perl server with containerization and VSCode dev container support.
 
+# Setup
+1. Open repository with VSCode `code .`
+2. Use VSCode command 'Open Folder In Container...'
+3. Wait until postcreate.sh and poststart.sh are completed.
+4. Run `docker compose up --build --watch`.
+5. Hello, perld!
+
 ---
 
 # ssh-agent Setup (for use with Git SSH)

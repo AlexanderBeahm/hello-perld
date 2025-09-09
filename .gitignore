@@ -1,2 +1,5 @@
 *.env*
 .continue/*
+Makefile
+MYMETA.json
+MYMETA.yml
