@@ -3,11 +3,11 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME         => 'MyApp',
+    NAME         => 'hello-perld',
     VERSION_FROM => 'main.pl', # Finds $VERSION
     PREREQ_PM    => {
-        'HTTP::Daemon'        => 0,
         'HTTP::Status'        => 0,
+        'HTTP::Daemon'        => 0,
         'DBD::Pg'             => 0,
     },
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
