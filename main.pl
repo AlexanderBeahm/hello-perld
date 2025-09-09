@@ -4,7 +4,6 @@
 # Set up simple barriers to messing yrself over.
 use strict;
 use warnings;
-use 5.042_000;
 
 # Include the current directory in @INC for module searching.
 use lib '.';
