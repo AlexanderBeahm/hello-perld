@@ -16,7 +16,7 @@
 			]
 		}
 	},
-	// 🔑 Forward the WSL2 ssh-agent socket into the container:
+	// Forward the WSL2 ssh-agent socket into the container:
 	"mounts": [
 		"source=${localEnv:HOME}/.ssh/agent.sock,target=/ssh-agent,type=bind"
 	],
