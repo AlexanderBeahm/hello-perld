@@ -9,7 +9,7 @@ use XML::Hash;
 use lib '.';
 
 require database;
-require plexclient;
+require plextransform;
 
 sub run{
     # Create a new HTTP::Daemon on port 8080
@@ -29,38 +29,21 @@ sub run{
             if ($request->method eq 'GET' && $request->uri->path eq '/health') {
                 # Send an HTTP 200 OK response
                 database::validate_connection();
-                my $accountData = plexclient::get_account_info();
-                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/json' ], $accountData));
+                my $health_response = plextransform::handle_health();
+                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/json' ], $health_response));
 
             } 
             elsif ($request->method eq 'GET' && $request->uri->path eq '/refresh') {
-                # Trigger the refresh operation
-                plexclient::refresh_library(1);
-                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'text/plain' ], "Refresh triggered successfully."));
+                my $result = plextransform::handle_refresh();
+                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'text/plain' ], $result));
             }
             elsif ($request->method eq 'GET' && $request->uri->path eq '/playlists') {
-                # Fetch the playlists
-                my $playlists = plexclient::list_playlists();
-
-
-                # TODO: Gotta fix up this so that it works with the new JSON structure
-                # Transform the playlists into the desired JSON structure
-                my @processed_playlists;
-                for my $playlist (%$playlists) {
-                    # Assuming $playlist is a hash reference
-                    push @processed_playlists, { id => $playlist->{'id'}, title => $playlist->{'title'} };
-                }
-
-                # Convert the processed playlists to JSON
-                use JSON;
-                my $json_response = encode_json(\@processed_playlists);
-
-                # Send the JSON response
+                my $json_response = plextransform::handle_playlists();
                 $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/json' ], $json_response));
             }
             elsif ($request->method eq 'GET' && $request->uri->path =~ m{^/playlists/(\d+)$}) {
                 my $playlist_id = $1;
-                my $playlist_contents = plexclient::get_playlist_contents($playlist_id);
+                my $playlist_contents = plextransform::handle_playlist_contents($playlist_id);
                 $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/json' ], $playlist_contents));
             }
             else {
