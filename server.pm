@@ -30,7 +30,7 @@ sub run{
                 # Send an HTTP 200 OK response
                 database::validate_connection();
                 my $accountData = plexclient::get_account_info();
-                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/xml' ], $accountData));
+                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/json' ], $accountData));
 
             } 
             elsif ($request->method eq 'GET' && $request->uri->path eq '/refresh') {
@@ -39,14 +39,29 @@ sub run{
                 $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'text/plain' ], "Refresh triggered successfully."));
             }
             elsif ($request->method eq 'GET' && $request->uri->path eq '/playlists') {
-                # Trigger the refresh operation
+                # Fetch the playlists
                 my $playlists = plexclient::list_playlists();
-                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/xml' ], $playlists));
+
+
+                # TODO: Gotta fix up this so that it works with the new JSON structure
+                # Transform the playlists into the desired JSON structure
+                my @processed_playlists;
+                for my $playlist (%$playlists) {
+                    # Assuming $playlist is a hash reference
+                    push @processed_playlists, { id => $playlist->{'id'}, title => $playlist->{'title'} };
+                }
+
+                # Convert the processed playlists to JSON
+                use JSON;
+                my $json_response = encode_json(\@processed_playlists);
+
+                # Send the JSON response
+                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/json' ], $json_response));
             }
             elsif ($request->method eq 'GET' && $request->uri->path =~ m{^/playlists/(\d+)$}) {
                 my $playlist_id = $1;
                 my $playlist_contents = plexclient::get_playlist_contents($playlist_id);
-                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/xml' ], $playlist_contents));
+                $client_conn->send_response(HTTP::Response->new("200", undef, [ 'Content-Type' => 'application/json' ], $playlist_contents));
             }
             else {
                 # Respond with HTTP 404 Not Found for unsupported requests

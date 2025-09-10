@@ -1,7 +1,5 @@
 use strict;
 use warnings;
-use 5.042_000;
-
 package plexclient;
 
 use LWP::UserAgent;
@@ -9,6 +7,7 @@ use HTTP::Request;
 use XML::Simple;
 use JSON;
 use Data::Dumper;
+use XML::Hash::XS;
 
 my $plex_token = $ENV{'PLEX_CLAIM'};
 my $ua = LWP::UserAgent->new;
@@ -70,7 +69,8 @@ sub list_playlists {
     my $resp = $ua->request($req);
     if ($resp->is_success) {
         my $content = $resp->decoded_content;
-        return $content;
+        my $converted = XML::Hash::XS::xml2hash($content);
+        return $converted;
     } else {
         die "HTTP GET error code: ", $resp->code, "\n",
             "HTTP GET error message: ", $resp->message, "\n";

@@ -12,6 +12,7 @@ WriteMakefile(
         'LWP::UserAgent'      => 0,
         'LWP::Protocol::https' => 0,
         'HTTP::Request'       => 0,
+        'XML::Hash::XS'     => 0,
         'XML::Simple'         => 0,
         'XML::Hash'           => 0,
         'JSON'                => 0,
