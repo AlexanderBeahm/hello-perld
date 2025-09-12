@@ -49,7 +49,24 @@ sub handle_playlist_contents {
     my ($playlist_id) = @_;
     
     # Fetch the playlist contents
-    my $playlist_contents = plexclient::get_playlist_contents($playlist_id);
+    my $decoded_contents = plexclient::get_playlist_contents($playlist_id);
+
+    # Decode the JSON string
+    #my $decoded_contents = decode_json($playlist_contents);
+
+    # Transform the contents into the desired structure
+    my @processed_contents;
+    if ($decoded_contents && $decoded_contents->{'MediaContainer'} && $decoded_contents->{'MediaContainer'}->{'Metadata'}) {
+        for my $item (@{$decoded_contents->{'MediaContainer'}->{'Metadata'}}) {
+            push @processed_contents, {
+                id => $item->{'ratingKey'},
+                title => $item->{'title'}
+            };
+        }
+    }
+
+    # Convert back to JSON
+    my $playlist_contents = encode_json(\@processed_contents);
     
     # Return the contents (already in JSON format from plexclient)
     return $playlist_contents;
