@@ -8,17 +8,24 @@ use warnings;
 # Include the current directory in @INC for module searching.
 use lib '.';
 
-require server;
+require Server;
+require LoggerFactory;
 
-print "Hello, perld!\n";
+# Initialize logger with dependency injection using factory pattern
+# This allows for easy switching between logger types via environment variables
+# Set LOGGER_TYPE=database for database logging
+# Set LOGGER_TYPE=jsonfile for JSON file logging (default: console)
+my $logger = LoggerFactory->create_default_logger();
 
-print "\nNow running server...\n";
+$logger->info("Hello, perld!");
+
+$logger->info("Now running server...");
 
 eval {
-    server::run();
+    Server::run($logger);
 };
 if ($@) {
-    print "An error occurred while running the server: $@";
+    $logger->error("An error occurred while running the server: $@");
 }
 
-print "\nServer stopped.\n";
+$logger->info("Server stopped.");

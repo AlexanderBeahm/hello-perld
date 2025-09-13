@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-package plexclient;
+package PlexClient;
 
 use LWP::UserAgent;
 use HTTP::Request;

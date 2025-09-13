@@ -17,6 +17,8 @@ WriteMakefile(
         'XML::Hash'           => 0,
         'JSON'                => 0,
         'Data::Dumper'        => 0,
+        'DBI'                 => 0,
+        'Time::Local'         => 0,
     },
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'main.pl', # retrieve abstract from module

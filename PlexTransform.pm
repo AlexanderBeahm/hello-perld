@@ -1,16 +1,16 @@
-package plextransform;
+package PlexTransform;
 
 use strict;
 use warnings;
 use JSON;
 
 use lib '.';
-require plexclient;
+require PlexClient;
 
 # Handle health check
 sub handle_health {
-    # Get account data from plexclient
-    my $accountData = plexclient::get_account_info();
+    # Get account data from PlexClient
+    my $accountData = PlexClient::get_account_info();
     
     # Return account data (already in JSON format)
     return $accountData;
@@ -19,7 +19,7 @@ sub handle_health {
 # Handle refresh operation
 sub handle_refresh {
     # Trigger the refresh operation
-    plexclient::refresh_library(1);
+    PlexClient::refresh_library(1);
     
     # Return success message
     return "Refresh triggered successfully.";
@@ -28,7 +28,7 @@ sub handle_refresh {
 # Handle playlists listing
 sub handle_playlists {
     # Fetch the playlists
-    my $playlists = plexclient::list_playlists();
+    my $playlists = PlexClient::list_playlists();
     
     # Transform the playlists into the desired JSON structure
     my @processed_playlists;
@@ -49,7 +49,7 @@ sub handle_playlist_contents {
     my ($playlist_id) = @_;
     
     # Fetch the playlist contents
-    my $decoded_contents = plexclient::get_playlist_contents($playlist_id);
+    my $decoded_contents = PlexClient::get_playlist_contents($playlist_id);
 
     # Decode the JSON string
     #my $decoded_contents = decode_json($playlist_contents);
@@ -68,7 +68,7 @@ sub handle_playlist_contents {
     # Convert back to JSON
     my $playlist_contents = encode_json(\@processed_contents);
     
-    # Return the contents (already in JSON format from plexclient)
+    # Return the contents (already in JSON format from PlexClient)
     return $playlist_contents;
 }
 
