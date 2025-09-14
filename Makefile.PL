@@ -4,14 +4,16 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME         => 'hello-perld',
-    VERSION_FROM => 'main.pl', # Finds $VERSION
+    VERSION_FROM => 'Main.pl', # Finds $VERSION
     PREREQ_PM    => {
         'HTTP::Status'        => 0,
         'HTTP::Daemon'        => 0,
         'DBD::Pg'             => 0,
         'DBI'                 => 0,  # Added for database logging
         'JSON'                => 0,  # Added for JSON file logging
-        'Time::Local'         => 0,  # Added for timestamp handling
+        'Time::Local'         => 0,  # Added for timestamp handling,
+        'Mojolicious'         => 0,  # Added for web framework,
+        'Mojolicious::Plugin::SwaggerUI' => 0, # Added for Swagger UI
     },
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'main.pl', # retrieve abstract from module
