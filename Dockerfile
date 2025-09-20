@@ -4,5 +4,5 @@ WORKDIR /usr/src/myapp
 
 # Install necessary Perl modules using cpanm
 RUN ["cpanm", "--installdeps", "--notest", "."]
-CMD ["perl", "./main.pl"]
-EXPOSE 8080
+CMD ["morbo", "./script/myapp"]
+EXPOSE 3000
