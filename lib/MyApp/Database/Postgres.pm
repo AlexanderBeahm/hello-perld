@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-package Database;
+package MyApp::Database::Postgres;
 
 use DBI;
 

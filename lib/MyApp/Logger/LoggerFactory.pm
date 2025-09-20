@@ -1,27 +1,27 @@
 #!/usr/bin/perl
-package LoggerFactory;
+package MyApp::Logger::LoggerFactory;
 
 use strict;
 use warnings;
 
 use lib '.';
-require Logger;
-require ConsoleLogger;
-require DatabaseLogger;
-require JsonFileLogger;
+require MyApp::Logger::Logger;
+require MyApp::Logger::ConsoleLogger;
+require MyApp::Logger::DatabaseLogger;
+require MyApp::Logger::JsonFileLogger;
 
 # Factory pattern for creating logger instances - follows dependency injection pattern
 sub create_logger {
     my ($class, $type, %opts) = @_;
     
     if ($type eq 'console') {
-        return ConsoleLogger->new();
+        return MyApp::Logger::ConsoleLogger->new();
     }
     elsif ($type eq 'database') {
-        return DatabaseLogger->new(%opts);
+        return MyApp::Logger::DatabaseLogger->new(%opts);
     }
     elsif ($type eq 'jsonfile') {
-        return JsonFileLogger->new(%opts);
+        return MyApp::Logger::JsonFileLogger->new(%opts);
     }
     else {
         die "Unknown logger type: $type. Available types: console, database, jsonfile";

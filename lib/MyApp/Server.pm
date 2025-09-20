@@ -1,24 +1,25 @@
-package Server;
+package MyApp::Server;
 
 use strict;
 use warnings;
 
 use lib '.';
 
-require Database;
+require MyApp::Database::Postgres;
+require MyApp::Logger::Logger;
 
 sub health_check {
     my ($logger) = @_;
     
 
     # Validate logger dependency
-    unless ($logger && $logger->isa('Logger')) {
+    unless ($logger && $logger->isa('MyApp::Logger::Logger')) {
         die "Logger instance is required";
     }
 
     # Perform health check logic
     eval {
-        Database::validate_connection($logger);
+        MyApp::Database::Postgres::validate_connection($logger);
     };
     if ($@) {
         $logger->error("Health check failed: $@");

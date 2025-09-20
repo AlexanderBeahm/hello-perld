@@ -2,14 +2,14 @@ package MyApp;
 use Mojo::Base 'Mojolicious';
 
 use lib '.';
-require LoggerFactory;
+require MyApp::Logger::LoggerFactory;
 
 sub startup {
     my $self = shift;
 
     # Initialize logger
     $self->helper(logger_instance => sub {
-        state $logger = LoggerFactory->create_default_logger();
+        state $logger = MyApp::Logger::LoggerFactory->create_default_logger();
         return $logger;
     });
 
@@ -29,8 +29,6 @@ sub startup {
         my $c = shift;
         $c->reply->file('/usr/src/myapp/swagger/swagger.json');
     });
-
-
 
     # Log startup
     $self->logger_instance->info("MyApp web application started!");
