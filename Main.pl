@@ -1,5 +1,9 @@
 #!/usr/bin/env perl
 
+# Keeping this file for backward compatibility running Perl scripts
+# but the main application file is now in lib/MyApp.pm
+# New file location is script/myapp
+
 use strict;
 use warnings;
 

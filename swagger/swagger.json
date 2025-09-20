@@ -21,9 +21,9 @@
     "/health": {
       "get": {
         "summary": "Health Check Endpoint",
-
         "description": "Returns the health status of the application. This endpoint calls Server::health_check() to validate system health and returns a JSON response indicating success or failure.\n",
         "operationId": "getHealthStatus",
+        "x-mojo-to": "Health#getHealthStatus",
         "tags": [
           "Health"
         ],
@@ -34,32 +34,17 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HealthResponse"
-                },
-                "examples": {
-                  "success": {
-                    "summary": "Successful health check",
-                    "value": {
-                      "status": "ok"
-                    }
-                  }
                 }
               }
             }
           },
-          "500": {
-            "description": "Internal server error (health check failed)",
+          "503": {
+            "description": "Service unavailable (health check failed)",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "error": {
-                    "summary": "Health check failed",
-                    "value": {
-                      "status": "error"
-                    }
-                  }
+                  "type": "string",
+                  "example": "Service Unavailable"
                 }
               }
             }
@@ -72,25 +57,17 @@
     "schemas": {
       "HealthResponse": {
         "type": "object",
-        "required": ["status"],
         "properties": {
           "status": {
             "type": "string",
-            "description": "Health status indicator",
-            "enum": ["ok"],
-            "example": "ok"
-          }
-        }
-      },
-      "ErrorResponse": {
-        "type": "object",
-        "required": ["status"],
-        "properties": {
-          "status": {
+            "enum": [
+              "healthy",
+              "unhealthy"
+            ]
+          },
+          "timestamp": {
             "type": "string",
-            "description": "Error status indicator",
-            "enum": ["error"],
-            "example": "error"
+            "format": "date-time"
           }
         }
       }
