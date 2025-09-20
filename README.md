@@ -2,6 +2,8 @@
 
 A simple perl server with containerization and VSCode dev container support.
 
+[![Docker Image CI](https://github.com/AlexanderBeahm/hello-perld/actions/workflows/docker-image.yml/badge.svg)](https://github.com/AlexanderBeahm/hello-perld/actions/workflows/docker-image.yml)
+
 # Setup
 1. Open repository with VSCode `code .`
 2. Use VSCode command 'Open Folder In Container...'
