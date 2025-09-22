@@ -1,10 +1,10 @@
 #!/usr/bin/perl
-package JsonFileLogger;
+package HelloPerld::Logger::JsonFileLogger;
 
 use strict;
 use warnings;
 use lib '.';
-use parent 'Logger';
+use parent 'HelloPerld::Logger::Logger';
 use JSON;
 
 # Concrete implementation of Logger that outputs to JSON file (for ELK stack integration)

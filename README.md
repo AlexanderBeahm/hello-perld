@@ -4,12 +4,18 @@ A simple perl server with containerization and VSCode dev container support.
 
 [![Docker Image CI](https://github.com/AlexanderBeahm/hello-perld/actions/workflows/docker-image.yml/badge.svg)](https://github.com/AlexanderBeahm/hello-perld/actions/workflows/docker-image.yml)
 
+# Features
+- Lightweight Perl web server w/ [Mojolicious](https://docs.mojolicious.org/)
+- OpenAPI schema support w/ Swagger frontend.
+- Multiple logging schemes available out of box.
+- PostgreSQL database integration.
+
 # Setup
 1. Open repository with VSCode `code .`
 2. Use VSCode command 'Open Folder In Container...'
 3. Wait until postcreate.sh and poststart.sh are completed.
 4. Run `docker compose up --build --watch`.
-5. Hello, perld!
+5. "Hello, perld!" will be served at localhost:3000, with swagger frontend at localhost:3000/swagger.
 
 ---
 

@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-package Database;
+package HelloPerld::Database::Postgres;
 
 use DBI;
 

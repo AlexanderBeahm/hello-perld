@@ -2,14 +2,14 @@ services:
   hello-perld:
     build: .
     ports:
-      - "8080:8080"
+      - "3000:3000"
     env_file:
       - ./.env
     develop:
       watch:
         - action: sync+restart
           path: .
-          target: /usr/src/myapp
+          target: /usr/src/hello-perld
   db:
     image: postgres:latest
     environment:

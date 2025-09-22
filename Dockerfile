@@ -1,8 +1,8 @@
 FROM perl:5.42
-COPY . /usr/src/myapp
-WORKDIR /usr/src/myapp
+COPY . /usr/src/helloperld
+WORKDIR /usr/src/helloperld
 
 # Install necessary Perl modules using cpanm
 RUN ["cpanm", "--installdeps", "--notest", "."]
-CMD ["perl", "./main.pl"]
-EXPOSE 8080
+CMD ["morbo", "./script/helloperld"]
+EXPOSE 3000

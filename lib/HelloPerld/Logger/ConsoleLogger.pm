@@ -1,10 +1,11 @@
 #!/usr/bin/perl
-package ConsoleLogger;
+package HelloPerld::Logger::ConsoleLogger;
 
 use strict;
 use warnings;
 use lib '.';
-use parent 'Logger';
+use parent 'HelloPerld::Logger::Logger';
+
 
 # Enable autoflush for immediate output in Docker
 $| = 1;  # STDOUT autoflush
