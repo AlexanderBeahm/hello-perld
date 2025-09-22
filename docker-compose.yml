@@ -9,7 +9,7 @@ services:
       watch:
         - action: sync+restart
           path: .
-          target: /usr/src/myapp
+          target: /usr/src/hello-perld
   db:
     image: postgres:latest
     environment:

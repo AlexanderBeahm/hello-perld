@@ -1,11 +1,11 @@
-package MyApp::Controller::Health;
+package HelloPerld::Controller::Health;
 use Mojo::Base 'Mojolicious::Controller', -signatures;
 
 use lib '.';
-require MyApp::Server;
+require HelloPerld::Server;
 
 sub getHealthStatus ($self) {
-    if (MyApp::Server::health_check($self->app->logger_instance)) {
+    if (HelloPerld::Server::health_check($self->app->logger_instance)) {
         $self->render(openapi => { status => 'healthy' });
     } else {
         $self->render(openapi => { status => 'unhealthy' }, status => 503);

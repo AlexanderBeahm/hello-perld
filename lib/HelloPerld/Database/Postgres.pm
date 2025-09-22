@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-package MyApp::Database::Postgres;
+package HelloPerld::Database::Postgres;
 
 use DBI;
 

@@ -1,10 +1,10 @@
 #!/usr/bin/perl
-package MyApp::Logger::DatabaseLogger;
+package HelloPerld::Logger::DatabaseLogger;
 
 use strict;
 use warnings;
 use lib '.';
-use parent 'MyApp::Logger::Logger';
+use parent 'HelloPerld::Logger::Logger';
 use DBI;
 
 # Concrete implementation of Logger that outputs to PostgreSQL database

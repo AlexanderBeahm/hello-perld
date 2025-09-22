@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-package MyApp::Logger::Logger;
+package HelloPerld::Logger::Logger;
 
 use strict;
 use warnings;
