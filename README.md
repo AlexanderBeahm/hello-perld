@@ -9,6 +9,8 @@ A simple perl server with containerization and VSCode dev container support.
 - OpenAPI schema support w/ Swagger frontend.
 - Multiple logging schemes available out of box.
 - PostgreSQL database integration.
+- DevContainer support w/ external Docker containerization.
+- Claude Code
 
 # Setup
 1. Open repository with VSCode `code .`
