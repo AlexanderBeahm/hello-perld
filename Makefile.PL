@@ -3,7 +3,7 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME         => 'helloperld',
+    NAME         => 'HelloPerld',
     VERSION      => '1.0', # Set version directly
     PREREQ_PM    => {
         'DBD::Pg'             => 0,

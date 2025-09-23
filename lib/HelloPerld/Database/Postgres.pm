@@ -1,8 +1,9 @@
-#!/usr/bin/perl
+package HelloPerld::Database::Postgres;
+
 use strict;
 use warnings;
 
-package HelloPerld::Database::Postgres;
+our $VERSION = '1.0.0';
 
 use DBI;
 
@@ -41,3 +42,45 @@ sub validate_connection {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+HelloPerld::Database::Postgres - PostgreSQL database utilities
+
+=head1 SYNOPSIS
+
+    use HelloPerld::Database::Postgres;
+
+    my $logger = HelloPerld::Logger::ConsoleLogger->new();
+    HelloPerld::Database::Postgres::validate_connection($logger);
+
+=head1 DESCRIPTION
+
+Provides PostgreSQL database connectivity validation and utility functions.
+Handles database connection testing and error reporting through the logging
+system.
+
+=head1 FUNCTIONS
+
+=head2 validate_connection
+
+    HelloPerld::Database::Postgres::validate_connection($logger);
+
+Validates that a connection can be established to the PostgreSQL database
+using environment variables for configuration. Dies on connection failure.
+Logs connection status information.
+
+=head1 AUTHOR
+
+Alex Beahm <alexanderbeahm@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2024 Alex Beahm
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

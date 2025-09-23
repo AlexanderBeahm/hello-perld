@@ -1,11 +1,12 @@
-#!/usr/bin/perl
 package HelloPerld::Logger::DatabaseLogger;
 
 use strict;
 use warnings;
-use lib '.';
-use parent 'HelloPerld::Logger::Logger';
+
+our $VERSION = '1.0.0';
+
 use DBI;
+use parent 'HelloPerld::Logger::Logger';
 
 # Concrete implementation of Logger that outputs to PostgreSQL database
 sub new {
@@ -88,3 +89,54 @@ sub _init_database {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+HelloPerld::Logger::DatabaseLogger - Database-based logging implementation
+
+=head1 SYNOPSIS
+
+    use HelloPerld::Logger::DatabaseLogger;
+
+    my $logger = HelloPerld::Logger::DatabaseLogger->new(
+        host     => 'localhost',
+        database => 'logdb',
+        username => 'logger',
+        password => 'secret'
+    );
+    $logger->info("Database operation completed");
+
+=head1 DESCRIPTION
+
+A concrete implementation of HelloPerld::Logger::Logger that stores log
+messages in a PostgreSQL database. This logger is useful for production
+environments where centralized log storage and querying capabilities are needed.
+
+=head1 METHODS
+
+=head2 new
+
+    my $logger = HelloPerld::Logger::DatabaseLogger->new(%opts);
+
+Creates a new database logger instance. Accepts database connection parameters.
+
+=head2 log
+
+    $logger->log($level, $message);
+
+Stores the log message in the database with timestamp and level information.
+
+=head1 AUTHOR
+
+Alex Beahm <alexanderbeahm@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2024 Alex Beahm
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

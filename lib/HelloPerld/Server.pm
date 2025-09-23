@@ -3,10 +3,10 @@ package HelloPerld::Server;
 use strict;
 use warnings;
 
-use lib '.';
+our $VERSION = '1.0.0';
 
-require HelloPerld::Database::Postgres;
-require HelloPerld::Logger::Logger;
+use HelloPerld::Database::Postgres;
+use HelloPerld::Logger::Logger;
 
 sub health_check {
     my ($logger) = @_;
@@ -30,4 +30,45 @@ sub health_check {
     return 1;
 }
 
-1; #Ends with a true value to determine correct module loading.
+1;
+
+__END__
+
+=head1 NAME
+
+HelloPerld::Server - Server utilities and health check functionality
+
+=head1 SYNOPSIS
+
+    use HelloPerld::Server;
+
+    my $logger = HelloPerld::Logger::ConsoleLogger->new();
+    my $is_healthy = HelloPerld::Server::health_check($logger);
+
+=head1 DESCRIPTION
+
+Provides server-related utility functions including health check capabilities
+that validate database connectivity and other system dependencies.
+
+=head1 FUNCTIONS
+
+=head2 health_check
+
+    my $is_healthy = HelloPerld::Server::health_check($logger);
+
+Performs a comprehensive health check of the system including database
+connectivity. Returns true if all checks pass, false otherwise.
+Logs detailed information about the health check process.
+
+=head1 AUTHOR
+
+Alex Beahm <alexanderbeahm@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2024 Alex Beahm
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
