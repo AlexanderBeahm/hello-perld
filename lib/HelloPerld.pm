@@ -1,8 +1,9 @@
 package HelloPerld;
 use Mojo::Base 'Mojolicious';
 
-use lib '.';
-require HelloPerld::Logger::LoggerFactory;
+our $VERSION = '1.0.0';
+
+use HelloPerld::Logger::LoggerFactory;
 
 sub startup {
     my $self = shift;
@@ -44,3 +45,48 @@ sub startup {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+HelloPerld - A Mojolicious web application with structured logging
+
+=head1 SYNOPSIS
+
+    use HelloPerld;
+
+    # Start the application
+    my $app = HelloPerld->new;
+    $app->start;
+
+=head1 DESCRIPTION
+
+HelloPerld is a Mojolicious-based web application that demonstrates best practices
+for Perl web development including structured logging, database connectivity,
+and OpenAPI/Swagger documentation.
+
+The application provides:
+- RESTful API endpoints with OpenAPI specification
+- Multiple logging backends (Console, Database, JSON file)
+- Health check endpoints for monitoring
+- Swagger UI for API documentation
+
+=head1 METHODS
+
+=head2 startup
+
+Initializes the application, configures routes, plugins, and logging.
+
+=head1 AUTHOR
+
+Alex Beahm <alexanderbeahm@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2024 Alex Beahm
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

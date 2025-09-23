@@ -1,14 +1,14 @@
-#!/usr/bin/perl
 package HelloPerld::Logger::LoggerFactory;
 
 use strict;
 use warnings;
 
-use lib '.';
-require HelloPerld::Logger::Logger;
-require HelloPerld::Logger::ConsoleLogger;
-require HelloPerld::Logger::DatabaseLogger;
-require HelloPerld::Logger::JsonFileLogger;
+our $VERSION = '1.0.0';
+
+use HelloPerld::Logger::Logger;
+use HelloPerld::Logger::ConsoleLogger;
+use HelloPerld::Logger::DatabaseLogger;
+use HelloPerld::Logger::JsonFileLogger;
 
 # Factory pattern for creating logger instances - follows dependency injection pattern
 sub create_logger {
@@ -47,3 +47,57 @@ sub create_default_logger {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+HelloPerld::Logger::LoggerFactory - Factory class for creating logger instances
+
+=head1 SYNOPSIS
+
+    use HelloPerld::Logger::LoggerFactory;
+
+    # Create specific logger type
+    my $console_logger = HelloPerld::Logger::LoggerFactory->create_logger('console');
+    my $db_logger = HelloPerld::Logger::LoggerFactory->create_logger('database',
+        host => 'localhost', database => 'logs');
+
+    # Create default logger
+    my $default_logger = HelloPerld::Logger::LoggerFactory->create_default_logger();
+
+=head1 DESCRIPTION
+
+Implements the Factory pattern for creating logger instances. This class
+follows dependency injection principles by providing a centralized way to
+create and configure different types of loggers without tight coupling.
+
+=head1 METHODS
+
+=head2 create_logger
+
+    my $logger = HelloPerld::Logger::LoggerFactory->create_logger($type, %opts);
+
+Creates a logger instance of the specified type. Supported types:
+- 'console' - Console logger
+- 'database' - Database logger
+- 'json_file' - JSON file logger
+
+=head2 create_default_logger
+
+    my $logger = HelloPerld::Logger::LoggerFactory->create_default_logger();
+
+Creates a default console logger instance.
+
+=head1 AUTHOR
+
+Alex Beahm <alexanderbeahm@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2024 Alex Beahm
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
