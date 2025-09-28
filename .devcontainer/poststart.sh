@@ -34,26 +34,4 @@ else
 fi
 EOF
 
-# Update/create Claude configuration if API key is provided
-if [ ! -z "$ANTHROPIC_API_KEY" ] && [ "$ANTHROPIC_API_KEY" != "your_api_key_here" ]; then
-    echo "Updating Claude CLI configuration with API key..."
-    mkdir -p /home/vscode/.config/claude
-
-    # Copy configuration template and substitute API key
-    sed "s/\${ANTHROPIC_API_KEY}/$ANTHROPIC_API_KEY/g" /workspaces/hello-perld/.claude/config.json > /home/vscode/.config/claude/config.json
-
-    chmod 600 /home/vscode/.config/claude/config.json
-    chown vscode:vscode /home/vscode/.config/claude/config.json
-    echo "✓ Claude CLI configuration updated!"
-else
-    if [ ! -f "/home/vscode/.config/claude/config.json" ]; then
-        echo "No API key provided and no existing configuration found."
-        echo "To configure Claude CLI:"
-        echo "1. Set ANTHROPIC_API_KEY in .env file and restart container"
-        echo "2. Or run: claude auth login"
-    else
-        echo "✓ Using existing Claude CLI configuration"
-    fi
-fi
-
 echo "✓ Startup script completed!"
