@@ -1,0 +1,4 @@
+{
+  "api_key": "${ANTHROPIC_API_KEY}",
+  "default_model": "claude-sonnet-4-20250514"
+}

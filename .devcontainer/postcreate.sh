@@ -71,12 +71,10 @@ EOF
 if [ ! -z "$ANTHROPIC_API_KEY" ] && [ "$ANTHROPIC_API_KEY" != "your_api_key_here" ]; then
     echo "Configuring Claude CLI with provided API key..."
     mkdir -p /home/vscode/.config/claude
-    cat > /home/vscode/.config/claude/config.json << EOL
-{
-  "api_key": "$ANTHROPIC_API_KEY",
-  "default_model": "claude-3-5-sonnet-20241022"
-}
-EOL
+
+    # Copy configuration template and substitute API key
+    sed "s/\${ANTHROPIC_API_KEY}/$ANTHROPIC_API_KEY/g" /workspaces/hello-perld/.claude/config.json > /home/vscode/.config/claude/config.json
+
     chmod 600 /home/vscode/.config/claude/config.json
     chown vscode:vscode /home/vscode/.config/claude/config.json
     echo "✓ Claude CLI configured with API key!"
