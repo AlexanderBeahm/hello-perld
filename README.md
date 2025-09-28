@@ -10,7 +10,7 @@ A simple perl server with containerization and VSCode dev container support.
 - Multiple logging schemes available out of box.
 - PostgreSQL database integration.
 - DevContainer support w/ external Docker containerization.
-- Claude Code
+- Integrated Claude Code support.
 
 # Setup
 1. Open repository with VSCode `code .`
@@ -20,8 +20,7 @@ A simple perl server with containerization and VSCode dev container support.
 5. "Hello, perld!" will be served at localhost:3000, with swagger frontend at localhost:3000/swagger.
 
 ---
-
-# ssh-agent Setup (for use with Git SSH)
+## ssh-agent Setup (for use with Git SSH within Dev Container)
 ### Prep WSL2 (Ubuntu/Debian shown—adapt as needed), Ensure OpenSSH client & ssh-agent
 ```
 sudo apt-get update

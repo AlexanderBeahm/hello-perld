@@ -30,12 +30,10 @@
 		// Accept GitHub's host key on first connect (modern OpenSSH hashes known_hosts):
 		"GIT_SSH_COMMAND": "ssh -o StrictHostKeyChecking=accept-new"
 	},
-	// Load environment variables from .env file (including ANTHROPIC_API_KEY)
 	"runArgs": ["--env-file", ".env"],
 	"remoteEnv": {
 		"SSH_AUTH_SOCK": "/ssh-agent"
 	},
-	// Add GitHub to known_hosts so first Git call is non-interactive:
 	"postCreateCommand": "sudo ./.devcontainer/postcreate.sh",
 	"postStartCommand": "sudo ./.devcontainer/poststart.sh",
 	"remoteUser": "vscode"
