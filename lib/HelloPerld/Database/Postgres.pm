@@ -9,8 +9,8 @@ use DBI;
 
 sub validate_connection {
     my ($logger) = @_;
-    
-    my $dbname = 'postgres'; # default postgres database
+
+    my $dbname = $ENV{'POSTGRES_DB'};
     my $host = 'db'; # use the service name defined in docker-compose.yml
     my $port = 5432;
     my $user = $ENV{'POSTGRES_USER'}; # fetch from env variables
