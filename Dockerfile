@@ -1,6 +1,6 @@
 FROM perl:5.42
-COPY . /usr/src/helloperld
-WORKDIR /usr/src/helloperld
+COPY . /usr/src/hello-perld
+WORKDIR /usr/src/hello-perld
 
 # Install necessary Perl modules using cpanm
 RUN ["cpanm", "--installdeps", "--notest", "."]

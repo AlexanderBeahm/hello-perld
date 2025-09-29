@@ -1,4 +1,9 @@
 <!DOCTYPE html>
-<h1>
-    Welcome to HelloPerld!
-</h1>
+<link rel="stylesheet" href="/index.css">
+<div class="nav-bar">
+</div>
+<div class="content">
+    <h1>
+        Welcome to HelloPerld!
+    </h1>
+</div>

@@ -15,7 +15,24 @@ sub startup {
     });
 
     # Configure template path
-    $self->renderer->paths->[0] = '/usr/src/helloperld/lib/HelloPerld/Templates';
+    $self->renderer->paths->[0] = 'lib/HelloPerld/Templates';
+
+    # Configure static file serving
+    push @{$self->static->paths}, 'lib/HelloPerld/Public';
+
+    # Use a hook to handle static files before any routing/plugin processing
+    $self->hook(before_dispatch => sub {
+        my $c = shift;
+        my $path = $c->req->url->path->to_string;
+
+        # Check if this is a static file request
+        if ($path =~ /\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|txt|xml|json)$/i) {
+            my $file = substr($path, 1); # Remove leading slash
+            if ($c->reply->static($file)) {
+                $c->rendered; # Mark as rendered to prevent further processing
+            }
+        }
+    });
 
     # Define custom routes BEFORE OpenAPI plugin
     $self->routes->get('/')->to(cb => sub {
@@ -25,7 +42,7 @@ sub startup {
 
     # Configure OpenAPI plugin
     $self->plugin('OpenAPI' => {
-        url => '/usr/src/helloperld/swagger/swagger.json'
+        url => '/usr/src/hello-perld/swagger/swagger.json'
     });
 
     # Configure SwaggerUI plugin
@@ -37,7 +54,7 @@ sub startup {
     # Serve the swagger.json file
     $self->routes->get('/swagger.json')->to(cb => sub {
         my $c = shift;
-        $c->reply->file('/usr/src/helloperld/swagger/swagger.json');
+        $c->reply->file('/usr/src/hello-perld/swagger/swagger.json');
     });
 
     # Log startup
