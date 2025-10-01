@@ -11,6 +11,16 @@ export default defineConfig({
   build: {
     outDir: '../lib/HelloPerld/Public/dist',
     emptyOutDir: true,
+    // Disable source maps in production for security
+    sourcemap: false,
+    // Minification options
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    },
     rollupOptions: {
       output: {
         manualChunks: undefined,

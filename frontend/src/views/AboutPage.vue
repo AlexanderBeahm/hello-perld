@@ -40,14 +40,14 @@
 
 .about-page {
   align-items: flex-start;
-  padding: 2rem;
+  padding: var(--spacing-lg);
   max-width: 800px;
   margin: 0 auto;
 }
 
 .about-page h1 {
   font-size: 36px;
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing-lg);
   align-self: center;
   color: black;
 }
@@ -57,21 +57,21 @@
 }
 
 .about-content section {
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing-lg);
 }
 
 .about-content h2 {
-  color: #2c3e50;
+  color: var(--dark-bg);
   font-size: 24px;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 0.5rem;
+  margin-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: var(--spacing-xs);
 }
 
 .about-content p {
-  color: #333;
+  color: var(--text-primary);
   line-height: 1.6;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-sm);
 }
 
 .about-content ul {
@@ -80,15 +80,15 @@
 }
 
 .about-content ul li {
-  color: #333;
+  color: var(--text-primary);
   line-height: 1.8;
-  padding-left: 1.5rem;
+  padding-left: var(--spacing-md);
   position: relative;
 }
 
 .about-content ul li:before {
   content: "▸";
-  color: #3498db;
+  color: var(--primary-color);
   position: absolute;
   left: 0;
   font-weight: bold;

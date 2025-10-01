@@ -1,11 +1,16 @@
 <template>
   <div class="nav-bar">
-    <div class="nav-links">
+    <nav class="nav-links" aria-label="Main navigation">
       <router-link to="/" :class="{ active: $route.path === '/' }">Home</router-link>
       <router-link to="/about" :class="{ active: $route.path === '/about' }">About</router-link>
-      <a href="/swagger" target="_blank" rel="noopener noreferrer">Swagger</a>
-    </div>
-    <div class="nav-title">Hello, Perld</div>
+      <a
+        href="/swagger"
+        target="_blank"
+        aria-label="View API documentation in Swagger UI (opens in new tab)"
+        rel="noopener noreferrer"
+      >Swagger</a>
+    </nav>
+    <div class="nav-title" aria-label="Application name">Hello, Perld</div>
     <div class="nav-spacer"></div>
   </div>
 </template>
@@ -14,34 +19,34 @@
 .nav-bar {
   display: flex;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #2c3e50;
-  border-bottom: 3px solid #3498db;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--dark-bg);
+  border-bottom: 3px solid var(--primary-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .nav-links {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--spacing-md);
 }
 
 .nav-links a {
   text-decoration: none;
-  color: #ecf0f1;
+  color: var(--light-text);
   font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: all 0.2s;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
   cursor: pointer;
 }
 
 .nav-links a:hover {
-  background-color: #34495e;
-  color: #3498db;
+  background-color: var(--darker-bg);
+  color: var(--primary-color);
 }
 
 .nav-links a.active {
-  background-color: #3498db;
+  background-color: var(--primary-color);
   color: #fff;
 }
 
@@ -51,7 +56,7 @@
   transform: translateX(-50%);
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ecf0f1;
+  color: var(--light-text);
   letter-spacing: 0.5px;
 }
 

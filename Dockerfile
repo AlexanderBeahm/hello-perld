@@ -10,14 +10,17 @@ RUN npm run build
 FROM perl:5.42
 WORKDIR /usr/src/hello-perld
 
+# Copy dependency file first for better layer caching
+COPY Makefile.PL /usr/src/hello-perld/
+
+# Install necessary Perl modules using cpanm
+RUN cpanm --installdeps --notest .
+
 # Copy application files
 COPY . /usr/src/hello-perld
 
 # Copy built frontend assets from builder stage
-COPY --from=frontend-builder /frontend/../lib/HelloPerld/Public/dist /usr/src/hello-perld/lib/HelloPerld/Public/dist
-
-# Install necessary Perl modules using cpanm
-RUN cpanm --installdeps --notest .
+COPY --from=frontend-builder /lib/HelloPerld/Public/dist /usr/src/hello-perld/lib/HelloPerld/Public/dist
 
 CMD ["morbo", "./script/hello-perld"]
 EXPOSE 3000

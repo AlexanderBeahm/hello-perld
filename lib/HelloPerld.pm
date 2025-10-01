@@ -31,6 +31,7 @@ sub startup {
 
             # Prevent directory traversal attacks
             if ($file =~ /\.\./ || $file =~ /^\//) {
+                $c->render(text => 'Forbidden', status => 403);
                 return;
             }
 
@@ -54,6 +55,24 @@ sub startup {
         }
     });
 
+    # SPA fallback routing - catch all non-API routes and serve index.html
+    # This allows Vue Router history mode to work correctly
+    $self->routes->get('/*')->to(cb => sub {
+        my $c = shift;
+        my $path = $c->req->url->path->to_string;
+
+        # Skip API routes and existing routes
+        return if $path =~ m{^/(api|swagger)};
+
+        # Serve SPA index.html for all other routes
+        my $index_file = $c->app->home->rel_file('lib/HelloPerld/Public/dist/index.html');
+        if (-e $index_file) {
+            $c->reply->file($index_file);
+        } else {
+            $c->reply->not_found;
+        }
+    });
+
     # Configure OpenAPI plugin
     $self->plugin('OpenAPI' => {
         url => $self->home->rel_file('swagger/swagger.json')
@@ -70,6 +89,15 @@ sub startup {
     $self->routes->get('/swagger.json')->to(cb => sub {
         my $c = shift;
         $c->reply->file($c->app->home->rel_file('swagger/swagger.json'));
+    });
+
+    # Add security headers
+    $self->hook(after_dispatch => sub {
+        my $c = shift;
+        $c->res->headers->header('X-Frame-Options' => 'DENY');
+        $c->res->headers->header('X-Content-Type-Options' => 'nosniff');
+        $c->res->headers->header('X-XSS-Protection' => '1; mode=block');
+        $c->res->headers->header('Referrer-Policy' => 'strict-origin-when-cross-origin');
     });
 
     # Log startup
