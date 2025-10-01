@@ -8,8 +8,13 @@ services:
     develop:
       watch:
         - action: sync+restart
-          path: .
-          target: /usr/src/hello-perld
+          path: ./lib
+          target: /usr/src/hello-perld/lib
+        - action: sync+restart
+          path: ./script
+          target: /usr/src/hello-perld/script
+        - action: rebuild
+          path: ./frontend
     depends_on:
       - db
 
