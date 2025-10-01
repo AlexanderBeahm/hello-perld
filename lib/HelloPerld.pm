@@ -26,8 +26,14 @@ sub startup {
         my $path = $c->req->url->path->to_string;
 
         # Check if this is a static file request
-        if ($path =~ /\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|txt)$/i) {
+        if ($path =~ /\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf)$/i) {
             my $file = substr($path, 1); # Remove leading slash
+
+            # Prevent directory traversal attacks
+            if ($file =~ /\.\./ || $file =~ /^\//) {
+                return;
+            }
+
             if ($c->reply->static($file)) {
                 $c->rendered; # Mark as rendered to prevent further processing
             }
@@ -42,7 +48,7 @@ sub startup {
 
     # Configure OpenAPI plugin
     $self->plugin('OpenAPI' => {
-        url => '/usr/src/hello-perld/swagger/swagger.json'
+        url => $self->home->rel_file('swagger/swagger.json')
     });
 
     # Configure SwaggerUI plugin
@@ -55,7 +61,7 @@ sub startup {
     # Serve the swagger.json file
     $self->routes->get('/swagger.json')->to(cb => sub {
         my $c = shift;
-        $c->reply->file('/usr/src/hello-perld/swagger/swagger.json');
+        $c->reply->file($c->app->home->rel_file('swagger/swagger.json'));
     });
 
     # Log startup
