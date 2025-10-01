@@ -26,7 +26,7 @@ sub startup {
         my $path = $c->req->url->path->to_string;
 
         # Check if this is a static file request
-        if ($path =~ /\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|txt|xml|json)$/i) {
+        if ($path =~ /\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|txt)$/i) {
             my $file = substr($path, 1); # Remove leading slash
             if ($c->reply->static($file)) {
                 $c->rendered; # Mark as rendered to prevent further processing
