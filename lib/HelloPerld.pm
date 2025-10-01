@@ -25,8 +25,8 @@ sub startup {
         my $c = shift;
         my $path = $c->req->url->path->to_string;
 
-        # Check if this is a static file request
-        if ($path =~ /\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf)$/i) {
+        # Check if this is a static file request (including .map files for source maps)
+        if ($path =~ /\.(css|js|mjs|map|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf)$/i) {
             my $file = substr($path, 1); # Remove leading slash
 
             # Prevent directory traversal attacks
@@ -41,9 +41,17 @@ sub startup {
     });
 
     # Define custom routes BEFORE OpenAPI plugin
+    # Serve the built Vue.js SPA
     $self->routes->get('/')->to(cb => sub {
         my $c = shift;
-        $c->render(template => 'index');
+        # Serve the built index.html from Vite
+        my $index_file = $c->app->home->rel_file('lib/HelloPerld/Public/dist/index.html');
+        if (-e $index_file) {
+            $c->reply->file($index_file);
+        } else {
+            # Fallback to template if dist hasn't been built yet
+            $c->render(template => 'index');
+        }
     });
 
     # Configure OpenAPI plugin
