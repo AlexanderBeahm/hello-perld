@@ -15,29 +15,90 @@ sub startup {
     });
 
     # Configure template path
-    $self->renderer->paths->[0] = '/usr/src/helloperld/lib/HelloPerld/Templates';
+    $self->renderer->paths->[0] = 'lib/HelloPerld/Templates';
+
+    # Configure static file serving
+    push @{$self->static->paths}, 'lib/HelloPerld/Public';
+
+    # Use a hook to handle static files before any routing/plugin processing
+    $self->hook(before_dispatch => sub {
+        my $c = shift;
+        my $path = $c->req->url->path->to_string;
+
+        # Check if this is a static file request (including .map files for source maps)
+        if ($path =~ /\.(css|js|mjs|map|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf)$/i) {
+            my $file = substr($path, 1); # Remove leading slash
+
+            # Prevent directory traversal attacks
+            if ($file =~ /\.\./ || $file =~ /^\//) {
+                $c->render(text => 'Forbidden', status => 403);
+                return;
+            }
+
+            if ($c->reply->static($file)) {
+                $c->rendered; # Mark as rendered to prevent further processing
+            }
+        }
+    });
 
     # Define custom routes BEFORE OpenAPI plugin
+    # Serve the built Vue.js SPA
     $self->routes->get('/')->to(cb => sub {
         my $c = shift;
-        $c->render(template => 'index');
+        # Serve the built index.html from Vite
+        my $index_file = $c->app->home->rel_file('lib/HelloPerld/Public/dist/index.html');
+        if (-e $index_file) {
+            $c->reply->file($index_file);
+        } else {
+            # Fallback to template if dist hasn't been built yet
+            $c->render(template => 'index');
+        }
     });
 
     # Configure OpenAPI plugin
     $self->plugin('OpenAPI' => {
-        url => '/usr/src/helloperld/swagger/swagger.json'
+        url => $self->home->rel_file('swagger/swagger.json')
     });
 
     # Configure SwaggerUI plugin
     $self->plugin('SwaggerUI' => {
         route => $self->routes->any('/swagger'),
-        url => '/swagger.json'
+        url => '/swagger.json',
+        favicon => '/helloperld.ico'
     });
 
     # Serve the swagger.json file
     $self->routes->get('/swagger.json')->to(cb => sub {
         my $c = shift;
-        $c->reply->file('/usr/src/helloperld/swagger/swagger.json');
+        $c->reply->file($c->app->home->rel_file('swagger/swagger.json'));
+    });
+
+    # SPA fallback routing - catch all non-API routes and serve index.html
+    # This allows Vue Router history mode to work correctly
+    # IMPORTANT: Define this AFTER all API/Swagger routes to ensure proper route priority
+    $self->routes->get('/*')->to(cb => sub {
+        my $c = shift;
+        my $path = $c->req->url->path->to_string;
+
+        # Skip API routes and existing routes
+        return if $path =~ m{^/(api|swagger)};
+
+        # Serve SPA index.html for all other routes
+        my $index_file = $c->app->home->rel_file('lib/HelloPerld/Public/dist/index.html');
+        if (-e $index_file) {
+            $c->reply->file($index_file);
+        } else {
+            $c->reply->not_found;
+        }
+    });
+
+    # Add security headers
+    $self->hook(after_dispatch => sub {
+        my $c = shift;
+        $c->res->headers->header('X-Frame-Options' => 'DENY');
+        $c->res->headers->header('X-Content-Type-Options' => 'nosniff');
+        $c->res->headers->header('X-XSS-Protection' => '1; mode=block');
+        $c->res->headers->header('Referrer-Policy' => 'strict-origin-when-cross-origin');
     });
 
     # Log startup

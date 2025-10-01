@@ -3,3 +3,21 @@
 Makefile
 MYMETA.json
 MYMETA.yml
+
+# Frontend build artifacts
+frontend/node_modules/
+frontend/dist/
+lib/HelloPerld/Public/dist/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/

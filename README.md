@@ -6,18 +6,100 @@ A simple perl server with containerization and VSCode dev container support.
 
 # Features
 - Lightweight Perl web server w/ [Mojolicious](https://docs.mojolicious.org/)
-- OpenAPI schema support w/ Swagger frontend.
+- Vue 3 SPA frontend with Vite build system
+- OpenAPI schema support w/ Swagger page.
 - Multiple logging schemes available out of box.
 - PostgreSQL database integration.
 - DevContainer support w/ external Docker containerization.
 - Integrated Claude Code support.
 
+# Prerequisites
+- **Node.js LTS** (for frontend development)
+- **Docker & Docker Compose**
+- **VSCode** (recommended for DevContainer support)
+
 # Setup
+
+## DevContainer Setup (Recommended)
 1. Open repository with VSCode `code .`
 2. Use VSCode command 'Open Folder In Container...'
-3. Wait until postcreate.sh and poststart.sh are completed.
-4. Run `docker compose up --build --watch`.
-5. "Hello, perld!" will be served at localhost:3000, with swagger frontend at localhost:3000/swagger.
+3. Wait until postcreate.sh and poststart.sh are completed (installs dependencies and builds frontend)
+4. Run `docker compose up --build --watch`
+5. "Hello, perld!" will be served at localhost:3000, with swagger frontend at localhost:3000/swagger
+
+## Local Development Setup
+1. **Install Perl dependencies:**
+   ```bash
+   cpanm --installdeps --notest .
+   ```
+
+2. **Install frontend dependencies and build:**
+   ```bash
+   cd frontend
+   npm install
+   npm run build
+   cd ..
+   ```
+
+3. **Start the Mojolicious server:**
+   ```bash
+   morbo ./script/hello-perld
+   ```
+   The application will be available at http://localhost:3000
+
+## Docker Production Setup
+```bash
+docker compose up --build
+```
+
+# Development Workflow
+
+## Frontend Development
+The frontend is a Vue 3 single-page application built with Vite.
+
+### Development Mode (with Hot Module Replacement)
+For the best development experience, run the Vite dev server and Mojolicious backend separately:
+
+1. **Terminal 1 - Start Mojolicious backend:**
+   ```bash
+   morbo ./script/hello-perld
+   ```
+
+2. **Terminal 2 - Start Vite dev server:**
+   ```bash
+   cd frontend
+   npm run dev
+   ```
+   The Vite dev server runs at http://localhost:5173 and proxies API calls to the Mojolicious backend at http://localhost:3000
+
+### Production Build
+To build the frontend for production:
+```bash
+cd frontend
+npm run build
+```
+This builds assets to `lib/HelloPerld/Public/dist/` which are served by Mojolicious.
+
+## Project Structure
+```
+hello-perld/
+├── frontend/                    # Vue 3 SPA frontend
+│   ├── src/
+│   │   ├── components/         # Vue components
+│   │   ├── views/              # Page views
+│   │   ├── router/             # Vue Router config
+│   │   ├── assets/             # CSS and static assets
+│   │   ├── App.vue             # Root component
+│   │   └── main.js             # Entry point
+│   ├── index.html              # HTML template
+│   ├── vite.config.js          # Vite configuration
+│   └── package.json            # Frontend dependencies
+├── lib/HelloPerld/             # Perl backend
+│   ├── Public/                 # Static assets
+│   │   └── dist/               # Built frontend assets (generated)
+│   └── Templates/              # Mojolicious templates
+├── script/                     # Perl scripts
+└── Dockerfile                  # Multi-stage build (Node + Perl)
 
 ---
 ## ssh-agent Setup (for use with Git SSH within Dev Container)

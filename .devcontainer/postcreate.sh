@@ -18,6 +18,16 @@ if [ -f "cpanfile" ]; then
     cpanm --installdeps --notest .
 fi
 
+# Install frontend dependencies and build
+echo "Installing frontend dependencies..."
+if [ -d "frontend" ]; then
+    cd frontend
+    npm install
+    npm run build
+    cd ..
+    echo "✓ Frontend dependencies installed and built"
+fi
+
 # Install Claude CLI as vscode user to avoid permission issues
 echo "Installing Claude CLI..."
 
