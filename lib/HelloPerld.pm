@@ -48,7 +48,8 @@ sub startup {
     # Configure SwaggerUI plugin
     $self->plugin('SwaggerUI' => {
         route => $self->routes->any('/swagger'),
-        url => '/swagger.json'
+        url => '/swagger.json',
+        favicon => '/helloperld.ico'
     });
 
     # Serve the swagger.json file

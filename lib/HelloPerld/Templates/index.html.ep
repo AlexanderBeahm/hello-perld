@@ -4,21 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello, Perld</title>
+    <link rel="icon" type="image/x-icon" href="/helloperld.ico">
     <link rel="stylesheet" href="/index.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
-<div class="nav-bar">
-    <div class="nav-links">
-        <a href="/about">About</a>
-        <a href="/swagger">Swagger</a>
+<div id="app">
+    <div class="nav-bar">
+        <div class="nav-links">
+            <a @click.prevent="currentPage = 'home'" :class="{ active: currentPage === 'home' }" href="#">Home</a>
+            <a @click.prevent="currentPage = 'about'" :class="{ active: currentPage === 'about' }" href="#">About</a>
+            <a @click.stop target="_blank" rel="noopener noreferrer" href="/swagger">Swagger</a>
+        </div>
+        <div class="nav-title">Hello, Perld</div>
+        <div class="nav-spacer"></div>
     </div>
-    <div class="nav-title">Hello, Perld</div>
-    <div class="nav-spacer"></div>
-</div>
-<div class="content">
-    <h1>Hello, Perld!</h1>
-    <div id="app">{{ message }}</div>
+
+    <!-- Home View -->
+    <div v-if="currentPage === 'home'" class="content">
+        <h1>Hello, Perld!</h1>
+    </div>
+
+    <!-- About View -->
+    <div v-if="currentPage === 'about'" class="content about-page">
+        <h1>About HelloPerld</h1>
+        <div class="about-content">
+            <section>
+                <h2>What is HelloPerld?</h2>
+                <p>HelloPerld is a modern Mojolicious-based web application that demonstrates best practices for Perl web development.</p>
+            </section>
+            <section>
+                <h2>Features</h2>
+                <ul>
+                    <li>RESTful API endpoints with OpenAPI specification</li>
+                    <li>Multiple logging backends (Console, Database, JSON file)</li>
+                    <li>Health check endpoints for monitoring</li>
+                    <li>Swagger UI for API documentation</li>
+                    <li>Single-page application architecture with Vue 3</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Technology Stack</h2>
+                <ul>
+                    <li>Perl with Mojolicious framework</li>
+                    <li>Vue 3 for frontend interactivity</li>
+                    <li>PostgreSQL for database</li>
+                    <li>Docker for containerization</li>
+                </ul>
+            </section>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -26,9 +61,10 @@
 
   createApp({
     setup() {
-      const message = ref('Hello vue!')
+      const currentPage = ref('home')
+
       return {
-        message
+        currentPage
       }
     }
   }).mount('#app')
