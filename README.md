@@ -6,7 +6,8 @@ A simple perl server with containerization and VSCode dev container support.
 
 # Features
 - Lightweight Perl web server w/ [Mojolicious](https://docs.mojolicious.org/)
-- OpenAPI schema support w/ Swagger frontend.
+- Vue.js frontend.
+- OpenAPI schema support w/ Swagger page.
 - Multiple logging schemes available out of box.
 - PostgreSQL database integration.
 - DevContainer support w/ external Docker containerization.
